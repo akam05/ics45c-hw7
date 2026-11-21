@@ -23,3 +23,35 @@ TEST(IntArrayTests, SizedArrayReportsItsLength) {
 }
 
 // ADD YOUR TESTS HERE:
+TEST(IntArrayTests, OutOfBoundsThrows)
+{
+    Array a(3);
+    a.fill(4);
+    EXPECT_EQ(a[2], 4];
+    EXPECT_ANY_THROW(a[3] = 4);
+    EXPECT_ANY_THROW(a[-1] = 4);
+}
+
+TEST(IntArrayTests, Copy)
+{
+    Array a(3);
+    Array a.fill(1);
+    Array b(a);
+    EXPECT_EQ(b.length(), 3);
+    EXPECT_EQ(a[2], 1);
+    b[2] = 9;
+    EXPECT_EQ(a[2], 1);
+    EXPECT_EQ(a[2], 9);
+}
+
+TEST(IntArrayTests, Move)
+{
+    Array a(3);
+    a.fill(1);
+
+    Array b(2);
+    b.fill(9);
+
+    b = std::move(a);
+    EXPECT_EQ(b[0], 1);
+}
