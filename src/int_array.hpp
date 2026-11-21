@@ -23,7 +23,7 @@ public:
     }
 
     // move constructor
-    Array(const Array&& other) : Array() {
+    Array(Array&& other) : Array() {
         std::swap(len, other.len);
         std::swap(buf, other.buf);
     }
@@ -42,8 +42,12 @@ public:
     }
     
     // move assignment
-    Array& operator=(const Array&& other) {
-        swap(*this, copy);
+    Array& operator=(Array&& other) {
+        if (this != &other) {
+            Array temp;
+            swap(*this, other); 
+            swap(other, temp);
+        }
         return *this;
     }
     // destructor
