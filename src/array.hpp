@@ -54,5 +54,6 @@ template <typename T>
 std::istream& operator>>(std::istream& in, Array<T>& array);
 
 // ... definitions follow, each preceded by template <typename T>
+due
 
 #endif

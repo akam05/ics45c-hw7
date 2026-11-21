@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <utility>
+#include <string>
 
 class Array {
 public:
@@ -14,29 +15,65 @@ public:
     explicit Array(int len) : len{len}, buf{new int[len]} {
     }
 
-    // TODO Step 4: copy constructor
-    // TODO Step 4: move constructor
-    // TODO Step 5: friend void swap(Array& lhs, Array& rhs) noexcept
-    // TODO Step 5: copy assignment
-    // TODO Step 5: move assignment
-    // TODO Step 4: destructor
+    // copy constructor
+    Array(const Array& other) : len{other.len}, buf{new int[other.len]} {
+        for (int i = 0; i < len; i++) {
+            buf[i] = other.buf[i];
+        }
+    }
+
+    // move constructor
+    Array(const Array&& other) : Array() {
+        std::swap(len, other.len);
+        std::swap(buf, other.buf);
+    }
+
+    // friend void swap(Array& lhs, Array& rhs) noexcept
+    friend void swap(Array& lhs, Array& rhs) noexcept {
+        std::swap(lhs.len, rhs.len);
+        std::swap(lhs.buf, rhs.buf);
+    }
+
+    // copy assignment
+    Array& operator=(const Array& other) {
+        Array copy(other);
+        swap(*this, copy);
+        return *this;
+    }
+    
+    // move assignment
+    Array& operator=(const Array&& other) {
+        swap(*this, copy);
+        return *this;
+    }
+    // destructor
+    ~Array() {
+        delete[] buf;
+    }
 
     int length() const {
         return len;
     }
 
     int& operator[](int index) {
-        // TODO Step 3: throw std::string when the index is out of bounds:
-        //     "Exception operator[](" + std::to_string(index) + ") Out Of Range"
+        if (!in_bounds(index)) {
+            throw "Exception operator[](" + std::to_string(index) + ") Out Of Range";
+        }
         return buf[index];
     }
 
     const int& operator[](int index) const {
-        // TODO Step 3: the same check as above
+        if (!in_bounds(index)) {
+            throw "Exception operator[](" + std::to_string(index) + ") Out Of Range";
+        }
         return buf[index];
     }
 
-    // TODO Step 2: void fill(int val) - set every element to val
+    void fill(int val) {
+        for (int i = 0; i < len; i++) {
+            buf[i] = val;
+        }
+    }
 
 private:
     int len;
