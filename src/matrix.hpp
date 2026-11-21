@@ -40,7 +40,7 @@ Matrix<T>::Matrix() : rows{0}, cols{0}, data{}
 }
 
 template <typename T>
-Matrix(int rows, int cols) : rows(rows), cols(cols), data {rows}
+Matrix<T>::Matrix(int rows, int cols) : rows(rows), cols(cols), data {rows}
 {
     for (int i =0; i < rows; i++) 
     {
@@ -49,22 +49,59 @@ Matrix(int rows, int cols) : rows(rows), cols(cols), data {rows}
 }
 
 template <typename T>
-Array<T>& operator[](int row);
+Array<T>& Matrix<T>::operator[](int row) {
+    return data[row];
+}
 
 template <typename T>
-const Array<T>& operator[](int row) const;
+const Array<T>& Matrix<T>::operator[](int row) const {
+    return data[row];
+}
 
 template <typename T>
-int num_rows() const;
+int Matrix<T>::num_rows() const {
+    return rows;   
+}
+template <typename T>
+int Matrix<T>::num_cols() const {
+    return cols;
+}
 
 template <typename T>
-int num_cols() const;
-
-template <typename T>
-void fill(const T& val);
+void Matrix<T>::fill(const T& val) {
+    for (int i = 0; i < rows; i++) {
+        data[i].fill(val);
+    }
+}
 
 template <typename T>
 template <typename Fn>
-void fill_with_fn(Fn fn);
+void Matrix<T>::fill_with_fn(Fn fn) {
+    for (int i = 0; i <rows; i++) {
+        data[i].fill_with_fn(fn);
+    }
+}
 
+template <typename T>
+std::ostream& operator<<(std::ostream& out, const Array<T>& array) {
+std::stringstream temp;
+    // We don't want to set formatting flags globally.
+    temp << std::setprecision(2) << std::fixed << std::right;
+
+    for (int i = 0; i < array.length(); ++i) {
+        temp << std::setw(8) << array[i];
+    }
+
+    out << temp.str();
+    return out;
+}
+    
+template <typename T>
+std::istream& operator>>(std::istream& in, Array<T>& array) {
+    for (int i = 0; i < array.length(); ++i) {
+        in >> array[i];
+    }
+
+    return in;
+}
 #endif
