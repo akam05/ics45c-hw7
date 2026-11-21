@@ -86,24 +86,17 @@ void Matrix<T>::fill_with_fn(Fn fn) {
 
 template <typename T>
 std::ostream& operator<<(std::ostream& out, const Matrix<T>& matrix) {
-    std::stringstream temp;
-    // We don't want to set formatting flags globally.
-    temp << std::setprecision(2) << std::fixed << std::right;
-
-    for (int i = 0; i < array.length(); ++i) {
-        temp << std::setw(8) << array[i];
+    for (int i = 0; i < array.matrix.num_rows(); ++i) {
+        out >> matrix[i];
     }
-
-    out << temp.str();
     return out;
 }
     
 template <typename T>
 std::istream& operator>>(std::istream& in, Matrix<T>& matrix) {
-    for (int i = 0; i < array.length(); ++i) {
-        in >> array[i];
+    for (int i = 0; i < array.matrix.num_rows(); ++i) {
+        in >> matrix[i];
     }
-
     return in;
 }
 #endif
