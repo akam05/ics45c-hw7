@@ -43,7 +43,11 @@ public:
     
     // move assignment
     Array& operator=(Array&& other) {
-        swap(*this, copy);
+        if (this != &other) {
+            Array temp;
+            swap(*this, other); 
+            swap(other, temp);
+        }
         return *this;
     }
     // destructor
