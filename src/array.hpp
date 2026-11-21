@@ -59,12 +59,12 @@ Array<T>::Array() : len{0}, buf{nullptr} {
 }
 
 template <typename T>
-Array<T>::Array(int len) : len{len}, buf{new int[len]} {
+Array<T>::Array(int len) : len{len}, buf{new T[len]} {
 }
 
 // copy constructor
 template <typename T>
-Array<T>::Array(const Array& other) : len{other.len}, buf{new int[other.len]} {
+Array<T>::Array(const Array& other) : len{other.len}, buf{new T[other.len]} {
     for (int i = 0; i < len; i++) {
         buf[i] = other.buf[i];
     }
@@ -79,14 +79,14 @@ Array<T>::Array(Array&& other) : Array() {
 
 // friend void swap(Array& lhs, Array& rhs) noexcept
 template <typename T>
-friend void Array<T>::swap(Array& lhs, Array& rhs) noexcept {
+void swap(Array& lhs, Array& rhs) noexcept {
     std::swap(lhs.len, rhs.len);
     std::swap(lhs.buf, rhs.buf);
 }
 
 // copy assignment
 template <typename T>
-Array& Array<T>::operator=(const Array& other) {
+Array<T>& Array<T>::operator=(const Array& other) {
     Array copy(other);
     swap(*this, copy);
     return *this;
@@ -94,7 +94,7 @@ Array& Array<T>::operator=(const Array& other) {
 
 // move assignment
 template <typename T>
-Array& Array<T>::operator=(Array&& other) {
+Array<T>& Array<T>::operator=(Array&& other) {
     if (this != &other) {
         Array temp;
         swap(*this, other); 
@@ -136,7 +136,7 @@ const int& Array<T>::operator[](int index) const {
 }
 
 template <typename T>
-void Array<T>::fill(int val) {
+void Array<T>::fill(const T& val) {
     for (int i = 0; i < len; i++) {
         buf[i] = val;
     }

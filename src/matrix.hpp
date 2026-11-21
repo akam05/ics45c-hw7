@@ -35,4 +35,5 @@ std::istream& operator>>(std::istream& in, Matrix<T>& matrix);
 
 // ... definitions follow
 
+
 #endif
