@@ -78,13 +78,15 @@ template <typename T>
 template <typename Fn>
 void Matrix<T>::fill_with_fn(Fn fn) {
     for (int i = 0; i <rows; i++) {
-        data[i].fill_with_fn(fn);
+        for (int j = 0; j < cols; j++) {
+            data[i][j] = fn(i,j);
+        }
     }
 }
 
 template <typename T>
-std::ostream& operator<<(std::ostream& out, const Array<T>& array) {
-std::stringstream temp;
+std::ostream& operator<<(std::ostream& out, const Matrix<T>& matrix) {
+    std::stringstream temp;
     // We don't want to set formatting flags globally.
     temp << std::setprecision(2) << std::fixed << std::right;
 
@@ -97,7 +99,7 @@ std::stringstream temp;
 }
     
 template <typename T>
-std::istream& operator>>(std::istream& in, Array<T>& array) {
+std::istream& operator>>(std::istream& in, Matrix<T>& matrix) {
     for (int i = 0; i < array.length(); ++i) {
         in >> array[i];
     }
