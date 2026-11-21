@@ -39,9 +39,19 @@ TEST(IntArrayTests, Copy)
     Array b(a);
     EXPECT_EQ(b.length(), 3);
     EXPECT_EQ(a[2], 1);
+    EXPECT_EQ(b[2], 1);
     b[2] = 9;
     EXPECT_EQ(a[2], 1);
     EXPECT_EQ(b[2], 9);
+
+    Array c(4);
+    c.fill(2);
+    b = c;
+    ASSERT_EQ(b.length(), 4);
+    EXPECT_EQ(b[0], 2);
+    EXPECT_EQ(b[1], 2);
+    EXPECT_EQ(b[2], 2);
+    EXPECT_EQ(b[2], 2);
 }
 
 TEST(IntArrayTests, Move)
