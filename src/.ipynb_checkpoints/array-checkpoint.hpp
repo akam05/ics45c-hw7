@@ -54,13 +54,16 @@ template <typename T>
 std::istream& operator>>(std::istream& in, Array<T>& array);
 
 // ... definitions follow, each preceded by template <typename T>
+template <typename T>
 Array() : len{0}, buf{nullptr} {
 }
 
+template <typename T>
 explicit Array(int len) : len{len}, buf{new int[len]} {
 }
 
 // copy constructor
+template <typename T>
 Array(const Array& other) : len{other.len}, buf{new int[other.len]} {
     for (int i = 0; i < len; i++) {
         buf[i] = other.buf[i];
@@ -68,18 +71,21 @@ Array(const Array& other) : len{other.len}, buf{new int[other.len]} {
 }
 
 // move constructor
+template <typename T>
 Array(Array&& other) : Array() {
     std::swap(len, other.len);
     std::swap(buf, other.buf);
 }
 
 // friend void swap(Array& lhs, Array& rhs) noexcept
+template <typename T>
 friend void swap(Array& lhs, Array& rhs) noexcept {
     std::swap(lhs.len, rhs.len);
     std::swap(lhs.buf, rhs.buf);
 }
 
 // copy assignment
+template <typename T>
 Array& operator=(const Array& other) {
     Array copy(other);
     swap(*this, copy);
@@ -87,6 +93,7 @@ Array& operator=(const Array& other) {
 }
 
 // move assignment
+template <typename T>
 Array& operator=(Array&& other) {
     if (this != &other) {
         Array temp;
@@ -95,13 +102,43 @@ Array& operator=(Array&& other) {
     }
     return *this;
 }
+
 // destructor
+template <typename T>
 ~Array() {
     delete[] buf;
 }
 
+template <typename T>
 int length() const {
     return len;
+}
+
+int length() const {
+        return len;
+    }
+
+template <typename T>
+int& operator[](int index) {
+    if (!in_bounds(index)) {
+        throw "Exception operator[](" + std::to_string(index) + ") Out Of Range";
+    }
+    return buf[index];
+}
+
+template <typename T>
+const int& operator[](int index) const {
+    if (!in_bounds(index)) {
+        throw "Exception operator[](" + std::to_string(index) + ") Out Of Range";
+    }
+    return buf[index];
+}
+
+template <typename T>
+void fill(int val) {
+    for (int i = 0; i < len; i++) {
+        buf[i] = val;
+    }
 }
 
 #endif
